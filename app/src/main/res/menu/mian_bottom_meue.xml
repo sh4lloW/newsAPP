@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_message"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_contacts"
+        android:enabled="true"
+        android:icon="@drawable/me"
+        android:title="我的"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_yingyong"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="应用"
+        app:showAsAction="ifRoom" />
+</menu>
