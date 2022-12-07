@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import com.example.newsapp.R
 
 class LoginActivity : AppCompatActivity() {
@@ -17,10 +19,15 @@ class LoginActivity : AppCompatActivity() {
         val register = findViewById<Button>(R.id.register)
         val accountEdit = findViewById<EditText>(R.id.accountEdit)
         val passwordEdit = findViewById<EditText>(R.id.passwordEdit)
-
+        val rememberPass = findViewById<CheckBox>(R.id.rememberPass)
         val prefs = getPreferences(Context.MODE_PRIVATE)
         val editor = prefs.edit()
 
+        accountEdit.addTextChangedListener{
+            if(rememberPass.isChecked){
+                passwordEdit.setText(prefs.getString(accountEdit.text.toString(),""))
+            }
+        }
         login.setOnClickListener {
             //输入的账号密码
             val account = accountEdit.text.toString()
