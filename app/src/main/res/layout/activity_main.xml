@@ -7,11 +7,16 @@
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
     <!-- 滚动效果 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/news_RecyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/swipeLayout">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/news_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

@@ -2,9 +2,11 @@ package com.example.newsapp.Activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.newsapp.*
 import com.example.newsapp.Adapter.NewsAdapter
 import com.example.newsapp.model.News
@@ -13,6 +15,7 @@ import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import kotlin.concurrent.thread
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     private val newsList = ArrayList<News>()
@@ -45,11 +48,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         newsRecyclerView =  findViewById<RecyclerView>(R.id.news_RecyclerView)
+        val swipeLayout = findViewById<SwipeRefreshLayout>(R.id.swipeLayout)
         newsRecyclerView.layoutManager = LinearLayoutManager(this)
         newsRecyclerView.adapter = NewsAdapter(newsList)
-
         refresh()
+        swipeLayout.setOnRefreshListener{
+            swipeLayout.isRefreshing = false
+            Toast.makeText(this@MainActivity, "刷新成功", Toast.LENGTH_SHORT).show()
+            refresh()
+        }
+
     }
+
+
 
 
 }
