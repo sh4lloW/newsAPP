@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
             val account = accountEdit.text.toString()
             val password = passwordEdit.text.toString()
 
-            if (password == prefs.getString(account,"") && account.length > 1) {
+            if (password == prefs.getString(account,"") && account.isNotEmpty()) {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
