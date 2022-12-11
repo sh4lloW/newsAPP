@@ -2,9 +2,15 @@ package com.example.newsapp.Activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,7 +25,8 @@ import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
     private val newsList = ArrayList<News>()
-    lateinit var newsRecyclerView: RecyclerView
+    lateinit var newsRecyclerView:RecyclerView
+    lateinit var  swipeLayout:SwipeRefreshLayout
 
     // 刷新新闻，重新发送网络请求
     @SuppressLint("NotifyDataSetChanged")
@@ -46,20 +53,30 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        return view
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // val view = activity?.setContentView(R.layout.fragment_home)
-
-//        newsRecyclerView = findViewById<RecyclerView>(R.id.news_RecyclerView)
-//        val swipeLayout = findViewById<SwipeRefreshLayout>(R.id.swipeLayout)
-//        newsRecyclerView.layoutManager = LinearLayoutManager(this)
-//        newsRecyclerView.adapter = NewsAdapter(newsList)
-//        refresh()
-//        swipeLayout.setOnRefreshListener {
-//            swipeLayout.isRefreshing = false
-//            Toast.makeText(this@HomeFragment, "刷新成功", Toast.LENGTH_SHORT).show()
-//            refresh()
-//        }
+        activity?.setContentView(R.layout.fragment_home)
+        swipeLayout = view?.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)!!
+        newsRecyclerView = view?.findViewById<RecyclerView>(R.id.news_RecyclerView)!!
+        newsRecyclerView.layoutManager = LinearLayoutManager(this.activity)
+        newsRecyclerView.adapter = NewsAdapter(newsList)
+        refresh()
+        swipeLayout.setOnRefreshListener {
+            swipeLayout.isRefreshing = false
+            Toast.makeText(activity, "刷新成功", Toast.LENGTH_SHORT).show()
+            refresh()
+        }
 
     }
 }
