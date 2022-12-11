@@ -3,71 +3,53 @@ package com.example.newsapp.Activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.newsapp.*
 import com.example.newsapp.Adapter.NewsAdapter
 import com.example.newsapp.model.News
 import com.example.newsapp.model.NewsResponse
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import kotlin.concurrent.thread
-import android.view.View
-import androidx.core.view.get
 
 class MainActivity : AppCompatActivity() {
-    val fragmentList = listOf(HomeFragment(), scFragment("第一个测试"), scFragment("di"))
+    private val newsList = ArrayList<News>()
+    lateinit var newsRecyclerView: RecyclerView
+
+    // 刷新新闻，重新发送网络请求
+    @SuppressLint("NotifyDataSetChanged")
+    private fun refresh() {
+        // 网络请求放在主线程里会报错，这里创一个子线程
+        thread {
+            // 天行数据：综合新闻API接口
+            val request = Request.Builder().url("https://apis.tianapi.com/generalnews/index?key=" + "ff9f5806d6202b2a71827c98ad0ecc47").build()
+            val response = OkHttpClient().newCall(request).execute()
+            val json = response.body?.string()
+            val newsResponse = Gson().fromJson(json, NewsResponse::class.java)
+            if (newsResponse?.result != null) {
+                val data = newsResponse.result.newslist
+                // 先清空再重新塞
+                newsList.clear()
+                newsList.addAll(data)
+                runOnUiThread {
+                    // 通知newsList发生变化
+                    newsRecyclerView.adapter?.notifyDataSetChanged()
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val contentViewpage = findViewById<ViewPager>(R.id.content_view_pager)
-        //设置fragment页面的缓存数量
-        contentViewpage.offscreenPageLimit = 3
-        contentViewpage.adapter = MyAdapter(supportFragmentManager)
+        newsRecyclerView =  findViewById<RecyclerView>(R.id.news_RecyclerView)
+        newsRecyclerView.layoutManager = LinearLayoutManager(this)
+        newsRecyclerView.adapter = NewsAdapter(newsList)
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNav.setOnNavigationItemReselectedListener {
-            when (it.itemId) {
-                R.id.menu_message -> contentViewpage.currentItem = 0
-                R.id.menu_contacts -> contentViewpage.currentItem = 1
-                R.id.menu_yingyong -> contentViewpage.currentItem = 2
-            }
-            false
-        }
-        contentViewpage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-            override fun onPageSelected(position: Int) {
-                bottomNav.menu.getItem(position).isCheckable = true
-            }
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-
-        })
+        refresh()
     }
-    inner class MyAdapter(fm: FragmentManager) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-        override fun getCount(): Int {
-            return fragmentList.size
-        }
 
-        override fun getItem(position: Int): Fragment {
-            return fragmentList[position]
-        }
-    }
 
 }
