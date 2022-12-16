@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
+
     <!-- 底部导航 -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/content_view_pager"
