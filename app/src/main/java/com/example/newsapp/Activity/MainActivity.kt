@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         contentViewpage.adapter = MyAdapter(supportFragmentManager)
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        // 给底部导航栏的菜单项添加点击事件
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.menu_message -> contentViewpage.currentItem = 0
@@ -72,15 +73,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_bottom_navigation,menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_contacts-> Toast.makeText(this, "contacts", Toast.LENGTH_SHORT).show()
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

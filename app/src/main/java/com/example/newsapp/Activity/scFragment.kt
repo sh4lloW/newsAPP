@@ -16,7 +16,7 @@ class scFragment(var testName:String) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_sc,container,false)
+        val view = inflater.inflate(R.layout.fragment_sc,null)
         testNameView= view.findViewById(R.id.test_name)
         return  view
     }
