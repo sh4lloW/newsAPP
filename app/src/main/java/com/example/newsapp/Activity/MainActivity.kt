@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         //设置fragment页面的缓存数量
         contentViewpage.offscreenPageLimit = fragmentList.size
         contentViewpage.adapter = MyAdapter(supportFragmentManager)
-
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         // 给底部导航栏的菜单项添加点击事件
         bottomNav.setOnNavigationItemReselectedListener {
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             override fun onPageSelected(position: Int) {
+                //选中状态设置
                 bottomNav.menu.getItem(position).isCheckable = true
             }
             override fun onPageScrollStateChanged(state: Int) {
