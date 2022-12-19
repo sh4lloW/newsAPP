@@ -26,19 +26,13 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity() {
 
     //6个分类fragment,1个收藏fragment
-    val fragmentList = listOf(HomeFragment("shehui"),HomeFragment("guoji"),HomeFragment("yule"),HomeFragment("keji"),HomeFragment("tiyu"),HomeFragment("caijing"), scFragment("第一个测试"))
+    val fragmentList = listOf(HomeFragment("shehui"),HomeFragment("guoji"),HomeFragment("yule"),HomeFragment("keji"),HomeFragment("tiyu"),HomeFragment("caijing"), scFragment("第一个测试1111111111111111111111111111111111111111111111111111"))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val contentViewpage = findViewById<ViewPager>(R.id.content_view_pager)
         val tablayout = findViewById<TabLayout>(R.id.tab_layout)
-        val shehuiItem = findViewById<TabItem>(R.id.shehui)
-        val guojiItem = findViewById<TabItem>(R.id.guoji)
-        val yuleItem = findViewById<TabItem>(R.id.yule)
-        val kejiItem = findViewById<TabItem>(R.id.keji)
-        val tiyuItem = findViewById<TabItem>(R.id.tiyu)
-        val caijingItem = findViewById<TabItem>(R.id.caijing)
         //设置fragment页面的缓存数量
         contentViewpage.offscreenPageLimit = fragmentList.size
         contentViewpage.adapter = MyAdapter(supportFragmentManager)
@@ -52,12 +46,12 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onTabSelected(p0: TabLayout.Tab) {
                 when(p0.text){
-                    "社会" -> contentViewpage.currentItem = 0
-                    "国际" -> contentViewpage.currentItem = 1
-                    "娱乐" -> contentViewpage.currentItem = 2
-                    "科技" -> contentViewpage.currentItem = 3
-                    "体育" -> contentViewpage.currentItem = 4
-                    "财经" -> contentViewpage.currentItem = 5
+                    "社会" -> contentViewpage.setCurrentItem(0,false)
+                    "国际" -> contentViewpage.setCurrentItem(1,false)
+                    "娱乐" -> contentViewpage.setCurrentItem(2,false)
+                    "科技" -> contentViewpage.setCurrentItem(3,false)
+                    "体育" -> contentViewpage.setCurrentItem(4,false)
+                    "财经" -> contentViewpage.setCurrentItem(5,false)
                 }
              }
         })
@@ -67,10 +61,31 @@ class MainActivity : AppCompatActivity() {
         // 给底部导航栏的菜单项添加点击事件
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
-                R.id.menu_message -> contentViewpage.currentItem = 0
-                R.id.menu_contacts -> contentViewpage.currentItem = 6
+                R.id.menu_message -> contentViewpage.setCurrentItem(0,false)
+                R.id.menu_contacts -> contentViewpage.setCurrentItem(6,false)
             }
         }
+
+        contentViewpage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+
+            }
+            override fun onPageSelected(position: Int) {
+                when(position){
+
+                }
+            }
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
 
     }
     inner class MyAdapter(fm: FragmentManager) :
