@@ -23,7 +23,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import kotlin.concurrent.thread
 
-class HomeFragment : Fragment() {
+class HomeFragment(var newType: String) : Fragment() {
     private val newsList = ArrayList<News>()
     lateinit var newsRecyclerView:RecyclerView
     lateinit var  swipeLayout:SwipeRefreshLayout
@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         thread {
             // 天行数据：综合新闻API接口
             val request = Request.Builder()
-                .url("http://v.juhe.cn/toutiao/index?type=&key=" + "82e0e07c02b29cfa42ae2d153c2924e1")
+                .url("http://v.juhe.cn/toutiao/index?type=" + newType +"&key=" + "82e0e07c02b29cfa42ae2d153c2924e1")
                 .build()
             val response = OkHttpClient().newCall(request).execute()
             val json = response.body.string()
