@@ -53,7 +53,7 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.newsapp.NoSwipeViewPager
         android:id="@+id/content_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
