@@ -21,9 +21,9 @@ class NewsAdapter(private val newsList: List<News>): RecyclerView.Adapter<NewsVi
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val news = newsList[position]
         holder.title.text = news.title
-        holder.source.text = news.author_name
+        holder.source.text = news.source
         // 使用Glide加载图片
-        Glide.with(MyApplication.context).load(news.thumbnail_pic_s).into(holder.image)
+        Glide.with(MyApplication.context).load(news.picUrl).into(holder.image)
         holder.itemView.setOnClickListener {
             val intent = Intent(MyApplication.context, NewsDetailActivity::class.java)
             intent.putExtra("url", newsList[holder.adapterPosition].url)

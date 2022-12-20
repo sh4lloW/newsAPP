@@ -26,7 +26,7 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity() {
 
     //6个分类fragment,1个收藏fragment
-    val fragmentList = listOf(HomeFragment("shehui"),HomeFragment("guoji"),HomeFragment("yule"),HomeFragment("keji"),HomeFragment("tiyu"),HomeFragment("caijing"), scFragment("第一个测试1111111111111111111111111111111111111111111111111111"))
+    val fragmentList = listOf(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32), scFragment("第一个测试1111111111111111111111111111111111111111111111111111"))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
