@@ -44,9 +44,12 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-
+    //开源框架
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     // Glide:Android图片加载库
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+    implementation 'androidx.room:room-common:2.3.0'
+    implementation 'androidx.room:room-ktx:2.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     // okhttp

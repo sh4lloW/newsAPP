@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <CheckBox
+        android:id="@+id/ft_cb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@xml/check_box"
+        android:button="@null" />
+
     <WebView
         android:id="@+id/news_webview"
         android:layout_width="match_parent"
