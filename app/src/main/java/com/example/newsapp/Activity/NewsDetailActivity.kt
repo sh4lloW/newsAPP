@@ -14,7 +14,10 @@ class NewsDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newsdetail)
+        //系统自带的返回
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //打开新闻
         val url = intent.getStringExtra("url")
         val webView = findViewById<WebView>(R.id.news_webview)
         // 加这一行是以应用内部打开浏览器，而不是启动手机自带浏览器

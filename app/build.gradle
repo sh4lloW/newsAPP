@@ -33,7 +33,9 @@ android {
 }
 
 dependencies {
-
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "com.makeramen:roundedimageview:2.3.0"
+    implementation 'org.litepal.guolindev:core:3.2.3'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     //TableLayout -===头部列表导航栏控件
@@ -42,9 +44,12 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-
+    //开源框架
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     // Glide:Android图片加载库
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+    implementation 'androidx.room:room-common:2.3.0'
+    implementation 'androidx.room:room-ktx:2.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     // okhttp
