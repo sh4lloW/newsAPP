@@ -7,12 +7,59 @@
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
-    <!-- 底部导航 -->
-    <androidx.viewpager.widget.ViewPager
+    <!-- 上下导航 -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tabMode="scrollable">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/shehui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="社会"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/guoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="国际"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/yule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="娱乐"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/keji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="科技"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tiyu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="体育"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/caijing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="财经"/>
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <com.example.newsapp.NoSwipeViewPager
         android:id="@+id/content_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tab_layout"
+        android:layout_above="@+id/bottomNavigationView"
+        android:layout_marginBottom="0dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
