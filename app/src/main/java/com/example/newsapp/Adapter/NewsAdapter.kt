@@ -23,7 +23,7 @@ class NewsAdapter(private val newsList: List<News>): RecyclerView.Adapter<NewsVi
         holder.title.text = news.title
         holder.source.text = news.source
         // 使用Glide加载图片
-        Glide.with(MyApplication.context).load(news.url).into(holder.image)
+        Glide.with(MyApplication.context).load(news.picUrl).into(holder.image)
         holder.itemView.setOnClickListener {
             val intent = Intent(MyApplication.context, NewsDetailActivity::class.java)
             intent.putExtra("url", newsList[holder.adapterPosition].url)
@@ -38,6 +38,8 @@ class NewsAdapter(private val newsList: List<News>): RecyclerView.Adapter<NewsVi
     }
 
 }
+
+
 //class NewsAdapter(private val newsList: List<News>, private val newsFragment: NewFragment) :
 //    RecyclerView.Adapter<NewsAdapter.BaseViewHolder>() {
 //    companion object {
