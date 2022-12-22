@@ -18,9 +18,9 @@ import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
 
-
+    val newsList = ArrayList<News>()
     //6个分类fragment,1个收藏fragment
-    val fragmentList = arrayListOf<Fragment>(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32))
+    val fragmentList = arrayListOf<Fragment>(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32), scFragment(newsList))
 
     @SuppressLint("Range")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +28,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-
-
         //数据库
-        val newsList = ArrayList<News>()
+
         val dbHelper = MyDatabaseHelper(this, "app.db", 1)
         val db =dbHelper.writableDatabase
-
         var cursor = db.rawQuery("select * from app " ,null)
         if(cursor.count != 0){
             newsList.clear()
@@ -50,10 +45,6 @@ class MainActivity : AppCompatActivity() {
                 val News = News(id,title,source,image,url)
                 newsList.add(News)
             }while (cursor.moveToNext())
-            fragmentList.add(scFragment(newsList))
-            Toast.makeText(MyApplication.context,"收藏成功!",Toast.LENGTH_LONG).show()
-
-
         }
 
 
@@ -94,7 +85,25 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.menu_message -> contentViewpage.setCurrentItem(0,false)
-                R.id.menu_contacts -> contentViewpage.setCurrentItem(6,false)
+                R.id.menu_contacts -> {
+                    val dbHelper = MyDatabaseHelper(this, "app.db", 1)
+                    val db =dbHelper.writableDatabase
+                    var cursor = db.rawQuery("select * from app " ,null)
+                    if(cursor.count != 0){
+                        newsList.clear()
+                        cursor.moveToFirst()
+                        do {
+                            val id = cursor.getString(cursor.getColumnIndex("id"))
+                            val title = cursor.getString(cursor.getColumnIndex("title"))
+                            val source = cursor.getString(cursor.getColumnIndex("source"))
+                            val image = cursor.getString(cursor.getColumnIndex("image"))
+                            val url = cursor.getString(cursor.getColumnIndex("url"))
+                            val News = News(id,title,source,image,url)
+                            newsList.add(News)
+                        }while (cursor.moveToNext())
+                    }
+                    contentViewpage.setCurrentItem(6, false)
+                }
             }
             //是否取消分类栏
             when(it.itemId){
