@@ -1,5 +1,6 @@
 package com.example.newsapp.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Looper
@@ -9,53 +10,46 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.newsapp.Adapter.NewStarAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.newsapp.Adapter.NewsAdapter
 import com.example.newsapp.R
-import com.example.newsapp.app.App
-import com.example.newsapp.app.App.Companion.Dangqianuser
-import com.example.newsapp.room.AppDatabase
-import com.example.newsapp.room.NewStar
+import com.example.newsapp.database.MyDatabaseHelper
+import com.example.newsapp.model.News
+import com.example.newsapp.model.NewsResponse
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import kotlin.concurrent.thread
 
-class scFragment(var testName:String) : Fragment() {
-    private lateinit var list: List<NewStar>
-    val newStarDao = AppDatabase.getDatabase(this).NewStarDao()
-    lateinit var adapter: NewStarAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shou_cang)
-        ToolBarview("返回",null,"收藏列表",null)
-        //listciew加载收藏列表并且点击跳转
-        thread {
-            list=newStarDao.loadAllUsers(Dangqianuser)
-            if(list.size>0){
-                adapter=NewStarAdapter(this,R.layout.repo_item,list)
-                LshouCang.adapter=adapter
-            }else{
-                Looper.prepare()
-                Toast.makeText( App.context,"并未检测到收藏数据!!", Toast.LENGTH_LONG).show()
-                Looper.loop()
+class scFragment(var newsList: ArrayList<News>) : Fragment() {
+    lateinit var newsRecyclerView: RecyclerView
+    lateinit var  swipeLayout: SwipeRefreshLayout
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_home, null)
+        swipeLayout = view.findViewById(R.id.swipeLayout)
+        newsRecyclerView = view.findViewById(R.id.news_RecyclerView)
+        return view
+    }
+    // 刷新新闻，重新发送网络请求
+    @SuppressLint("NotifyDataSetChanged")
+    @Deprecated("Deprecated in Java")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        newsRecyclerView.layoutManager = LinearLayoutManager(this.activity)
+        newsRecyclerView.adapter = NewsAdapter(newsList)
+
+        swipeLayout.setOnRefreshListener {
+            swipeLayout.isRefreshing = false
+            activity?.runOnUiThread {
+                // 通知newsList发生变化
+                newsRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
-        //带参数跳转到内容详情页  新闻ID+频道ID
-        LshouCang.setOnItemClickListener{parent,view,position,id->
-            val newstar=list[position]
-            val intent= Intent(context,ContentActivity::class.java)
-            intent.putExtra("newkey",newstar.keyID)
-            intent.putExtra("channelkey",newstar.channelID)
-            startActivity(intent)
-        }
-    }
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        finish()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 }

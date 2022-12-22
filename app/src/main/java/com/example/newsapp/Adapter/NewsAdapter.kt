@@ -27,6 +27,11 @@ class NewsAdapter(private val newsList: List<News>): RecyclerView.Adapter<NewsVi
         holder.itemView.setOnClickListener {
             val intent = Intent(MyApplication.context, NewsDetailActivity::class.java)
             intent.putExtra("url", newsList[holder.adapterPosition].url)
+            intent.putExtra("image", newsList[holder.adapterPosition].picUrl)
+            intent.putExtra("source", newsList[holder.adapterPosition].source)
+            intent.putExtra("title", newsList[holder.adapterPosition].title)
+            intent.putExtra("id",newsList[holder.absoluteAdapterPosition].id)
+
             //必须加这一行，不然报错Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag.
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(MyApplication.context, intent, null)

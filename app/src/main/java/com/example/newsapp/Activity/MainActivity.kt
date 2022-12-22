@@ -1,22 +1,62 @@
 package com.example.newsapp.Activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.newsapp.*
+import com.example.newsapp.database.MyDatabaseHelper
+import com.example.newsapp.model.News
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
 
+
     //6个分类fragment,1个收藏fragment
-    val fragmentList = listOf(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32), scFragment("第一个测试"))
+    val fragmentList = arrayListOf<Fragment>(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32))
+
+    @SuppressLint("Range")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+
+
+
+        //数据库
+        val newsList = ArrayList<News>()
+        val dbHelper = MyDatabaseHelper(this, "app.db", 1)
+        val db =dbHelper.writableDatabase
+
+        var cursor = db.rawQuery("select * from app " ,null)
+        if(cursor.count != 0){
+            newsList.clear()
+            cursor.moveToFirst()
+            do {
+                val id = cursor.getString(cursor.getColumnIndex("id"))
+                val title = cursor.getString(cursor.getColumnIndex("title"))
+                val source = cursor.getString(cursor.getColumnIndex("source"))
+                val image = cursor.getString(cursor.getColumnIndex("image"))
+                val url = cursor.getString(cursor.getColumnIndex("url"))
+                val News = News(id,title,source,image,url)
+                newsList.add(News)
+            }while (cursor.moveToNext())
+            fragmentList.add(scFragment(newsList))
+            Toast.makeText(MyApplication.context,"收藏成功!",Toast.LENGTH_LONG).show()
+
+
+        }
+
+
         setContentView(R.layout.activity_main)
 
         val contentViewpage = findViewById<NoSwipeViewPager>(R.id.content_view_pager)
@@ -28,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         contentViewpage.offscreenPageLimit = fragmentList.size
         contentViewpage.adapter = MyAdapter(supportFragmentManager)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
 
         //分类添加点击事件
         tablayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
@@ -59,8 +100,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.menu_message -> tablayout.isVisible = true
                 R.id.menu_contacts -> tablayout.isVisible = false
-
             }
+
         }
 
         contentViewpage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -83,6 +124,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+
 
     }
     inner class MyAdapter(fm: FragmentManager) :
