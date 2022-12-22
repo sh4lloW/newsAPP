@@ -3,7 +3,6 @@ package com.example.newsapp.Activity
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.os.Bundle
-import android.os.Looper
 import android.view.MenuItem
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.newsapp.MyApplication.Companion.context
 import com.example.newsapp.R
 import com.example.newsapp.database.MyDatabaseHelper
-import kotlin.concurrent.thread
 
 class NewsDetailActivity : AppCompatActivity() {
     // 新闻详细页，直接用WebView打开JSON传过来的URL，URL由intent传过来
@@ -45,25 +43,6 @@ class NewsDetailActivity : AppCompatActivity() {
              webView.loadUrl(url)
         }
 
-//        val values1 = ContentValues().apply {
-////组装第一条数据
-//            put("title", "The Da Vinci Code")
-//            put("source", "Dan Brown")
-//            put("image", "ieo")
-//            put("url", url)
-//            put("id",1)
-//        }
-//        db.insert("app", null, values1) //插入第一条数据
-
-
-//        Toast.makeText(this, cursor.getString(cursor.getColumnIndex("url")),
-//            Toast.LENGTH_SHORT).show()
-
-//        if(!cursor.getString(cursor.getColumnIndex("url")).equals(url)){
-//            ft_cb.isChecked = true
-//        }
-
-
         //查询数据库
         var cursor = db.rawQuery("select * from app where id='$id'" ,null)
         //如果有记录则红心，没有则黑心
@@ -93,11 +72,7 @@ class NewsDetailActivity : AppCompatActivity() {
                 }
             }
         })
-
-
     }
-
-
 
     // 左上角加一个返回按钮，终止本页面并跳回新闻列表
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

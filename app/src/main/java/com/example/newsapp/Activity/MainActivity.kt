@@ -2,15 +2,16 @@ package com.example.newsapp.Activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.newsapp.*
+import com.example.newsapp.Fragment.HomeFragment
+import com.example.newsapp.Fragment.scFragment
+import com.example.newsapp.ViewPager.NoSwipeViewPager
 import com.example.newsapp.database.MyDatabaseHelper
 import com.example.newsapp.model.News
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,18 +19,23 @@ import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
 
-    val newsList = ArrayList<News>()
+    private val newsList = ArrayList<News>()
     //6个分类fragment,1个收藏fragment
-    val fragmentList = arrayListOf<Fragment>(HomeFragment(5),HomeFragment(8),HomeFragment(10),HomeFragment(13),HomeFragment(12),HomeFragment(32), scFragment(newsList))
+    val fragmentList = arrayListOf<Fragment>(
+        HomeFragment(5),
+        HomeFragment(8),
+        HomeFragment(10),
+        HomeFragment(13),
+        HomeFragment(12),
+        HomeFragment(32), scFragment(newsList)
+    )
 
     @SuppressLint("Range")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //数据库
-
         val dbHelper = MyDatabaseHelper(this, "app.db", 1)
         val db =dbHelper.writableDatabase
         var cursor = db.rawQuery("select * from app " ,null)
@@ -80,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-
         // 给底部导航栏的菜单项添加点击事件
         bottomNav.setOnNavigationItemReselectedListener {
             when (it.itemId) {
@@ -114,13 +119,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         contentViewpage.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-
 
             }
             override fun onPageSelected(position: Int) {
@@ -133,10 +136,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-
-
     }
+
     inner class MyAdapter(fm: FragmentManager) :
         FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount(): Int {
@@ -147,6 +148,4 @@ class MainActivity : AppCompatActivity() {
             return fragmentList[position]
         }
     }
-
-
 }

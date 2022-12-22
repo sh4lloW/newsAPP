@@ -50,10 +50,9 @@
             android:layout_height="wrap_content"
             android:text="财经"/>
 
-
     </com.google.android.material.tabs.TabLayout>
 
-    <com.example.newsapp.NoSwipeViewPager
+    <com.example.newsapp.ViewPager.NoSwipeViewPager
         android:id="@+id/content_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

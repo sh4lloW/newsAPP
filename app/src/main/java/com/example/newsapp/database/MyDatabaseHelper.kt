@@ -25,5 +25,4 @@ class MyDatabaseHelper(val mContext: Context, name: String,
 
     }
 
-
 }

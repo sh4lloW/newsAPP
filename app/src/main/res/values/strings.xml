@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">新闻</string>
+    <string name="app_name">昨日头条</string>
     <string name="title_activity_collect">collect</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

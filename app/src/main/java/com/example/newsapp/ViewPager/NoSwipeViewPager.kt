@@ -1,5 +1,6 @@
-package com.example.newsapp
+package com.example.newsapp.ViewPager
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import androidx.viewpager.widget.ViewPager
@@ -16,6 +17,7 @@ class NoSwipeViewPager(context: Context?, attributeSet: AttributeSet?) : ViewPag
         this.canSwipe = canSwipe
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         return canSwipe && super.onTouchEvent(ev)
     }

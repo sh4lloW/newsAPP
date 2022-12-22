@@ -9,6 +9,7 @@
         android:id="@+id/ft_cb"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:background="@xml/check_box"
         android:button="@null" />
 
